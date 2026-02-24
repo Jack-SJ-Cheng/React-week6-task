@@ -6,8 +6,6 @@ import Signin from "./components/Signin"
 import ProductList from "./components/ProductList"
 import Pagination from "./components/Pagination"
 
-
-
 const apiUrl = import.meta.env.VITE_API_BASE_URL
 const apiPath = import.meta.env.VITE_API_PATH
 
@@ -16,18 +14,18 @@ const getToken = () =>
     "$1");
 
 function App() {
+
   const modalRef = useRef(null);
   const modalInstance = useRef(null);
   const tableRef = useRef(null);
   const [isLogin, setIsLogin] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({imagesUrl:[""],unit: "個",is_enabled:false});
   const [editItem, setEditItem] = useState({});
   const [modalType, setModalType] = useState("");
   const [token, setToken] = useState("");
   const [pagination, setPagination] = useState({});
+
   
   const modalHeadBg = modalType === "新增商品" ? "bg-primary" : (modalType === "編輯商品" ? "bg-success" : "")
   const modalBtn = modalType === "新增商品" ? "btn-primary" : (modalType === "編輯商品" ? "btn-success" : "")
@@ -40,10 +38,10 @@ function App() {
     } catch(error){console.warn('取得商品失敗：', error.response)}
   }
   // 登入
-  const handleSubmit = async (username, password) => {
+  const toSubmit = async (username, password) => {
     try{
       if(username === "" || password === ""){
-        alert("請輸入帳號密碼");
+        // alert("請輸入帳號密碼");
         return;
       }
       const loginRes = await axios.post(`${apiUrl}/v2/admin/signin`, {
@@ -110,8 +108,7 @@ function App() {
           />
           <Pagination pagination={pagination} handleChangePage={handleGetProducts}/>
         </>
-        : <Signin handleSubmit={handleSubmit} username={username} setUsername={setUsername}
-              password={password}  setPassword={setPassword} />
+        : <Signin toSubmit={toSubmit} />
         }
       </div>
       <Modal modalInstance={modalInstance} modalRef={modalRef} modalHeadBg={modalHeadBg} modalType={modalType}

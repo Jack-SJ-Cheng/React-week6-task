@@ -1,5 +1,5 @@
 import axios from "axios";
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -19,6 +19,18 @@ export default function Product() {
       }
     })();
   },[])
+  
+  const addCart = async () => {
+    try{
+      const res = await axios.post(`${apiUrl}/v2/api/${api_path}/cart`, {
+          data: {
+            product_id: id,
+            qty: 1,
+          }
+        });
+      console.log(res);
+    } catch(error) {console.warn(error.response);}
+  }
 
   return (
     <>
@@ -33,7 +45,11 @@ export default function Product() {
             <p>風味描述：{product.description}</p>
             <p>原價：<del>{product.origin_price}</del></p>
             <h4 className="mt-4">價格：${product.price}</h4>
-            <button className="btn btn-primary mt-3">加入購物車</button>
+            <button type="button" className="btn btn-primary mt-3"
+              onClick={() => {
+                addCart();
+              }}
+            >加入購物車</button>
           </div>
         </div>
       </div>

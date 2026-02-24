@@ -9,6 +9,8 @@ import Anaerobic from "../pages/Anaerobic";
 import Special from "../pages/Special";
 import Product from "../pages/Product";
 import Home from "../pages/Home";
+import Checkout from "../pages/Checkout";
+import Complete from "../pages/Complete";
 
 
 const routes = [
@@ -58,6 +60,14 @@ const routes = [
       {
         path: "cart",
         element: <Cart />
+      },
+      {
+        path: "checkout",
+        element: <Checkout /> 
+      },
+      {
+        path: "complete",
+        element: <Complete /> 
       }
     ]
   }

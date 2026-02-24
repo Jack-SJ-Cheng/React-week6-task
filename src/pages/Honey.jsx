@@ -21,7 +21,7 @@ export default function Honey() {
                     <div className="card-body">
                       <h5 className="card-title">{product.title}</h5>
                       <p className="card-text fw-bold">NT${product.price}</p>
-                      <button className="btn btn-primary w-100">加入購物車</button>
+                      <button className="btn btn-primary w-100">查看詳情</button>
                     </div>
                   </div>
                 </Link>

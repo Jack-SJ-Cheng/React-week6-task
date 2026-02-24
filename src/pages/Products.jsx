@@ -39,7 +39,7 @@ export default function Products() {
               <NavLink className="nav-link" to="/products/special"><i className="bi bi-command me-2"></i> 特殊處理</NavLink>
             </nav>
           </div>
-          <div className="col-sm-9 p-4" style={{overflowY: "auto", height: "100%"}}>
+          <div className="col-sm-9 p-0" style={{overflowY: "auto", height: "100%"}}>
               <Outlet context={products}/>
           </div>
         </div>

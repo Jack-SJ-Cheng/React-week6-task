@@ -1,7 +1,29 @@
+import axios from "axios";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router";
 
 
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const api_path = import.meta.env.VITE_API_PATH;
 
 export default function Cart() {
+
+  const navigate = useNavigate();
+
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${apiUrl}/v2/api/${api_path}/cart`);
+        console.log(res);
+        setItems(res.data.data.carts);
+        setTotal(res.data.data.total);
+      } catch(error) {console.warn(error.response);}
+    })()
+  },[])
+
   return (
     <>
       <div className="container mt-5">
@@ -20,21 +42,38 @@ export default function Cart() {
             </tr>
           </thead>
           <tbody>
+            {
+              items.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{index+1}</td>
+                    <td>{item.product.title}</td>
+                    <td>{item.product.price}</td>
+                    <td>
+                      {item.qty}
+                    </td>
+                    <td>{item.final_total}</td>
+                    <td>
+                      <button className="btn btn-sm text-light btn-danger">刪除</button>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+          <tfoot>
             <tr>
-              <td>1</td>
-              <td>商品A</td>
-              <td>$100</td>
-              <td>
-                <select className="form-select w-auto" name="number" id="number">
-                  <option value="1">1</option>
-                </select>
+              <td colSpan={5} className="text-end">
+                總計：{total}
               </td>
-              <td>$100</td>
               <td>
-                <button className="btn btn-sm text-light btn-danger">刪除</button>
+                <button tabIndex={-1} className={`btn btn-sm btn-primary ${items.length ? "" : "disabled"}`} onClick={() => {
+                  if(!items.length) return
+                  navigate("/checkout");
+                }}>前往結帳</button>
               </td>
             </tr>
-          </tbody>
+          </tfoot>
         </table>
       </div>
     </>
